@@ -1,7 +1,7 @@
 # Final Project – Show Us Your Data!
 ### COVID-19 Data Warehouse in PostgreSQL (Our World in Data)
 
-**Name:** <your name>
+**Name: Anas Alsawalhi 
 **Operating system:** Windows · PostgreSQL <version> · pgAdmin 4
 **Course:** Databases for Analytics – Module 7
 
@@ -256,13 +256,9 @@ SELECT COUNT(DISTINCT iso_code) FROM countries;                     -- number of
 
 ---
 
-## Success Post (for the Discussion)
-**Your name:** <your name>
-**Your operating system:** Windows
-**Clickable link to your completed documentation:** <GitHub link to project.md>
-**Which was the most difficult:** Installing the data – loading a large CSV with many columns and handling NULLs and types.
-**What challenges did you encounter:** Large file, empty numeric values, `COPY` permission errors, aggregate rows mixed with countries, and splitting one wide table into related tables.
-**How did you address the challenges:** Used a staging table with `HEADER true` and `NULL ''`, loaded through pgAdmin/`\copy`, filtered `OWID%` rows, and normalized into 3 tables with keys.
-**Would you have preferred to submit this via discussions (to enable peer review) - Yes or No:** Yes
-**Why (or why not)?** Peer review would give feedback on my queries and different ideas from classmates.
-**Screenshot verifying your work:** <attach screenshot>
+
+
+
+
+
+
