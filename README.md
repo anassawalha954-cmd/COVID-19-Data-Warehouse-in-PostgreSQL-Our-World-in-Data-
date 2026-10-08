@@ -270,11 +270,13 @@ SELECT * FROM country_summary WHERE location = 'Jordan'
 
 ```
  <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
+
 ``` I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
 ```
 Other sanity checks:
-```sql
-SELECT MIN(date), MAX(date) FROM daily_stats;                       -- date range is sensible
+
+```sqlSELECT MIN(date), MAX(date) FROM daily_stats;                       -- date range is sensible
+
 SELECT COUNT(*) FROM daily_stats WHERE new_cases < 0;               -- negative values (data corrections)
 SELECT COUNT(DISTINCT iso_code) FROM countries;                     -- number of countries
 ```
