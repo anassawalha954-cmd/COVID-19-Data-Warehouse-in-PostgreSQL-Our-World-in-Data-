@@ -239,6 +239,7 @@ GROUP BY c.location, c.continent, c.population;
 
 SELECT * FROM country_summary WHERE location = 'Jordan'
 
+```
 📸 `screenshot <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
 ```
 I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
