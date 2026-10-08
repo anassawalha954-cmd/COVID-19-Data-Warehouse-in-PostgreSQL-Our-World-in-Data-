@@ -237,9 +237,9 @@ FROM countries c
 JOIN daily_stats d USING (iso_code)
 GROUP BY c.location, c.continent, c.population;
 
-SELECT * FROM country_summary WHERE location = 'Jordan';
+SELECT * FROM country_summary WHERE location = 'Jordan'
 
-
+``` 
 I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
 
 Other sanity checks:
