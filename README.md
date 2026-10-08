@@ -271,7 +271,8 @@ SELECT * FROM country_summary WHERE location = 'Jordan'
 ```
  <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
 
-``` The view returns Jordan as an Asian country with a population of 11,285,875, 1,746,997 total cases and 14,122 total deaths.
+```
+ The view returns Jordan as an Asian country with a population of 11,285,875, 1,746,997 total cases and 14,122 total deaths.
 
 ```
 ## 9. Insights
