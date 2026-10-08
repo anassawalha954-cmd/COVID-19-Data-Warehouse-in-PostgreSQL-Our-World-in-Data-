@@ -273,6 +273,7 @@ SELECT * FROM country_summary WHERE location = 'Jordan'
 
 ``` The view returns Jordan as an Asian country with a population of 11,285,875, 1,746,997 total cases and 14,122 total deaths.
 
+```
 ## 9. Insights
 
 ### About the data
@@ -311,6 +312,7 @@ SELECT * FROM country_summary WHERE location = 'Jordan'
 
 ### What I learned
 Most of the work in a real dataset is cleaning and typing the data. Splitting one 67-column table into three related tables with keys made the queries simpler and made the data problems (text types, duplicates) visible.
+
 
 ## 10. Process Summary
 1. Found the dataset on GitHub (OWID) and forked it.
