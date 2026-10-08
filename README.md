@@ -1,9 +1,9 @@
-# Final Project – Show Us Your Data!
+# Final Project 
 ### COVID-19 Data Warehouse in PostgreSQL (Our World in Data)
 
 Name: Anas Alsawalhi 
 
-Operating system: Windows · PostgreSQL <version> · pgAdmin 4
+Operating system: windows 
 
 Course: Databases for Analytics – Module 7
 
