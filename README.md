@@ -61,22 +61,27 @@ The raw table `covid_raw` has 67 columns, all imported as text (`character varyi
 | people_vaccinated | NUMERIC | People with at least one dose |
 
 ## 4. Obstacles and How I Solved Them
-| # | Obstacle | Solution |
-|---|---|---|
-| 1 | The file is large (429,435 rows × 67 columns), too big to inspect comfortably in Excel or a text editor | Loaded it into PostgreSQL first and explored it with SQL queries |
-| 2 | Every column in the raw table `covid_raw` was imported as and How I Solved The so dates and numbers could not be used in calculations | Converted types while creating the final tables, using rows × 67 columns), too big tand4. Obstacles so empty strings became NULL |
-| 3 | Aggregate rows (World, continents, income groups;The file is starting withes and How I Solved Them
-| # | Obstacle | Solution |
-|---|---|---|
-| 1 | The file is large (429,435 rows × 67 columns),|
-| 4 | Creating the primary key onem
-| # | Obstacfailed withcles and How I Solved Them
-| # | Obbecause the raw data had duplicate country-date rows | Rebuilt the table using|
-| 1 | The file is large (429,435 rowsso each country has one row per day |
-| 5 | After the error,ion |
-|---|---|did not exist at all: pgAdmin rolled back the whole script when one statement failed | Ran each statement separately (CREATE TABLE, then PRIMARY KEY, then FOREIGN KEY) and checked the result after each one |
-| 6 | Country attributes (population, median age, GDP) were repeated on every daily row | Normalized the data into 3 tables (`countries`,o dates and num `daily_vaccinations`) linked by primary and foreign keys |
-| 7 | Vaccination columns are mostly NULL for many dates | Moved them to their own table and kept only rows whereor a text editor | Loais not NULL (66,535 rows) |
+
+1. **Large file.** The file has 429,435 rows and 67 columns, too big to inspect comfortably in Excel or a text editor.
+   *Solution:* I loaded it into PostgreSQL first and explored it with SQL queries.
+
+2. **Everything imported as text.** Every column in the raw table `covid_raw` was imported as `character varying`, so dates and numbers could not be used in calculations.
+   *Solution:* I converted the types while creating the final tables, using `NULLIF(col::text,'')::date` and `::numeric` so empty strings became NULL.
+
+3. **Aggregate rows mixed with countries.** Rows such as World, continents and income groups (`iso_code` starting with `OWID_`) would cause double counting.
+   *Solution:* I excluded them with `WHERE iso_code NOT LIKE 'OWID%'`.
+
+4. **Duplicate rows blocked the primary key.** Creating the primary key on `daily_stats` failed with `duplicate key (FRO, 2021-09-16)` because the raw data had duplicate country-date rows.
+   *Solution:* I rebuilt the table with `SELECT DISTINCT ON (iso_code, date)` so each country has one row per day.
+
+5. **Failed script removed the table.** After the error, `daily_stats` did not exist at all, because pgAdmin rolled back the whole script when one statement failed.
+   *Solution:* I ran each statement separately (CREATE TABLE, then PRIMARY KEY, then FOREIGN KEY) and checked the result after each one.
+
+6. **Repeated country information.** Population, median age and GDP were repeated on every daily row.
+   *Solution:* I normalized the data into 3 tables (`countries`, `daily_stats`, `daily_vaccinations`) linked by primary and foreign keys.
+
+7. **Sparse vaccination data.** Vaccination columns are mostly NULL for many dates.
+   *Solution:* I moved them to their own table and kept only rows where `total_vaccinations` is not NULL (66,535 rows).
 
 ## 5. Table Structure
 
