@@ -284,12 +284,43 @@ SELECT COUNT(DISTINCT iso_code) FROM countries;                     -- number of
 ```
 
 ## 9. Insights
-*(Replace with what your actual results show.)*
-- **Death rate differs by continent**, which likely reflects testing capacity and reporting quality, not only severity.
-- **Case waves** in 7.4 line up with major variants (Delta, Omicron).
-- **Older populations** (7.5) tended to show higher cases per million, but this is correlation, not proof.
-- **Vaccination data is sparse**: many countries have NULLs, which is why it lives in its own table.
-- **Limits:** countries report differently, so cross-country comparisons need caution.
+
+### About the data
+- The raw file has 429,435 rows and 67 columns. After removing aggregate rows (`OWID_*`) and duplicates, the final tables hold **237 countries**, **393,903 daily records** and **66,535 vaccination records**.
+- Vaccination data is much sparser than case data (66,535 rows versus 393,903) and starts in 2021 (Afghanistan's first record is in February 2021). This is why it lives in its own table.
+- The data covers 56 months, from January 2020 to August 2024.
+
+### Deaths by country (7.1)
+- The United States has the highest total deaths (1,193,165), followed by Brazil (702,116), India (533,623) and Russia (403,188).
+- Five of the top 10 countries are in Europe (Russia, United Kingdom, Italy, Germany, France).
+- These are cumulative totals and depend heavily on population size, so they are not a fair comparison between countries.
+
+### By continent (7.2)
+- Asia had the most cases (301.6 million), while Europe had the most deaths (2.10 million).
+- The death rate (deaths divided by cases) ranges from 0.22% in Oceania and 0.54% in Asia up to 1.97% in both South America and Africa. Differences in testing and reporting probably explain part of this gap, because fewer tests mean fewer confirmed cases and a higher apparent rate.
+
+### Vaccination versus deaths (7.3)
+- Among countries with more than 10 million people, Cuba (96.4%), Portugal (95.6%), Chile (92.3%), Vietnam (92.2%) and China (91.9%) have the highest share of people with at least one dose.
+- High vaccination does not line up with low total deaths: Peru (89.8% vaccinated) has 220,975 deaths and Brazil (88.1%) has 702,116, while Cuba has 8,530. Deaths are cumulative over the whole period, including the time before vaccines existed, and they depend on country size, so this shows a pattern at most, not cause and effect.
+- Taiwan has NULL for total deaths. I kept this gap as NULL instead of replacing it with zero.
+
+### Trend over time (7.4)
+- Monthly new cases start at only 2,033 in January 2020, reach about 2 million by April 2020 and 10.2 million by October 2020.
+- The highest month in the whole dataset is **January 2022 with 94,645,572 new cases**, far above every earlier month (the previous peak was 23.7 million in May 2021). This is consistent with the Omicron wave, although the data itself does not name the variant.
+- A second, smaller peak appears in December 2022 (67.1 million).
+- From 2023 the numbers fall sharply, to about 0.9 million in June 2023 and 47,169 in August 2024, the last month in the data. This drop probably reflects less testing and reporting, not only fewer infections.
+
+### Age (7.5)
+- Countries with a median age of 35 or more average 357,684 cases per million, versus 130,564 for the 25 to 35 group and 25,836 for countries under 25. That is about 14 times higher for the older group than for the youngest.
+- This is correlation only. Older countries are often richer and test more, so they confirm more cases, which probably inflates the gap.
+
+### Limitations
+- Countries report differently, so cross-country comparisons need caution.
+- Missing values were kept as NULL, not turned into zero.
+- `MAX(total_*)` takes each country's last reported value, and reporting stops at different dates.
+
+### What I learned
+Most of the work in a real dataset is cleaning and typing the data. Splitting one 67-column table into three related tables with keys made the queries simpler and made the data problems (text types, duplicates) visible.
 
 ## 10. Process Summary
 1. Found the dataset on GitHub (OWID) and forked it.
