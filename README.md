@@ -139,7 +139,9 @@ SELECT 'countries' t, COUNT(*) FROM countries
 UNION ALL SELECT 'daily_stats', COUNT(*) FROM daily_stats
 UNION ALL SELECT 'daily_vaccinations', COUNT(*) FROM daily_vaccinations;
 ```
-📸 *Screenshot: `screenshots/counts.png`*
+📸 *Screenshot: <img width="747" height="549" alt="image" src="https://github.com/user-attachments/assets/9234f78a-ed6e-4375-8e81-138aebfc91b0" />
+
+
 
 ## 6. SELECT * From Each Table
 ```sql
@@ -147,7 +149,8 @@ SELECT * FROM countries LIMIT 10;
 SELECT * FROM daily_stats LIMIT 10;
 SELECT * FROM daily_vaccinations LIMIT 10;
 ```
-📸 `screenshots/countries.png`, `screenshots/daily_stats.png`, `screenshots/daily_vaccinations.png`
+📸 `screenshot <img width="752" height="651" alt="image" src="https://github.com/user-attachments/assets/c50e4536-6064-4276-83fa-b01f5f7093f6" />
+
 
 ## 7. Interesting Queries
 
@@ -160,7 +163,8 @@ GROUP BY c.location, c.continent
 ORDER BY total_deaths DESC NULLS LAST
 LIMIT 10;
 ```
-📸 `screenshots/q1.png`
+📸 `screenshot <img width="741" height="647" alt="image" src="https://github.com/user-attachments/assets/64355c9b-dd78-47d5-95ae-181f953898f1" />
+
 
 ### 7.2 GROUP BY + aggregate – Cases, deaths and death rate by continent
 ```sql
@@ -174,7 +178,8 @@ WHERE c.continent IS NOT NULL
 GROUP BY c.continent
 ORDER BY total_cases DESC;
 ```
-📸 `screenshots/q2.png`
+📸 `screenshot <img width="740" height="561" alt="image" src="https://github.com/user-attachments/assets/97fcb18c-cef4-4ce3-9205-4838840dab9e" />
+
 
 ### 7.3 Three-table JOIN – Vaccination vs. death rate per country
 ```sql
@@ -190,7 +195,8 @@ GROUP BY c.location, c.population
 ORDER BY pct_vaccinated DESC
 LIMIT 15;
 ```
-📸 `screenshots/q3.png`
+📸 `screenshot <img width="740" height="756" alt="image" src="https://github.com/user-attachments/assets/0848a938-a747-49d4-803c-a348e01f259b" />
+
 
 ### 7.4 Monthly trend of new cases worldwide
 ```sql
@@ -199,7 +205,8 @@ FROM daily_stats
 GROUP BY 1
 ORDER BY 1;
 ```
-📸 `screenshots/q4.png`
+📸 `screenshot <img width="756" height="817" alt="image" src="https://github.com/user-attachments/assets/90174343-797e-4b64-985a-10561f445de9" />
+
 
 ### 7.5 Cases per million by median age group
 ```sql
@@ -215,7 +222,8 @@ WHERE c.median_age IS NOT NULL
 GROUP BY age_group
 ORDER BY avg_cases_per_million DESC;
 ```
-📸 `screenshots/q5.png`
+📸 `screenshot <img width="744" height="674" alt="image" src="https://github.com/user-attachments/assets/fcf93d3e-5803-476e-a9f8-a7429b27ae2b" />
+
 
 ## 8. Verifying the Data
 To validate the import I (1) compared row counts with the CSV, (2) built a view, and (3) cross-checked one country against the original file.
