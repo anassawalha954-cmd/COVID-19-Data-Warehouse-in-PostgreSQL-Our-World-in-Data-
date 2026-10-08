@@ -22,8 +22,8 @@ I found the data by searching GitHub for large open datasets. I chose it because
 
 ## 2. Format of the Data
 - **Format:** CSV, comma-delimited, UTF-8, with a header row
-- **Rows:** <N>  → `SELECT COUNT(*) FROM covid_raw;`
-- **Columns:** <N> → `SELECT COUNT(*) FROM information_schema.columns WHERE table_name = 'covid_raw';`
+- **Rows:** 429435
+- **Columns:** 67
 
 ## 3. Data Dictionary
 | Column | Type | Description |
