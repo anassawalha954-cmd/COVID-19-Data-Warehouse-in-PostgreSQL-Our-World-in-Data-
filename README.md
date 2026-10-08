@@ -20,13 +20,11 @@ Course: Databases for Analytics – Module 7
 I found the data by searching GitHub for large open datasets. I chose it because it is trusted, well documented (it has a codebook), and complex enough: ~60+ columns, many countries, daily time series, lots of NULLs.
 
 ## 2. Format of the Data
-- **Format:** CSV, comma-delimited, UTF-8, with a header row
-  
+ 
 -**Rows** 429,435 (`SELECT COUNT(*) FROM covid_raw;`)
   
 -**Columns** 67 (`SELECT COUNT(*) FROM information_schema.columns WHERE table_name = 'covid_raw';`)
 
-- After removing the aggregate rows (`OWID_*`), the final tables contain 237 countries and 393,903 daily records.
 ## 3. Data Dictionary
 
 The raw table `covid_raw` has 67 columns, all imported as text (`character varying`). I kept the columns needed for the analysis and converted them to proper types in 3 final tables.
@@ -180,7 +178,7 @@ SELECT * FROM countries LIMIT 10;
 SELECT * FROM daily_stats LIMIT 10;
 SELECT * FROM daily_vaccinations LIMIT 10;
 ```
-📸 `screenshot <img width="752" height="651" alt="image" src="https://github.com/user-attachments/assets/c50e4536-6064-4276-83fa-b01f5f7093f6" />
+<img width="752" height="651" alt="image" src="https://github.com/user-attachments/assets/c50e4536-6064-4276-83fa-b01f5f7093f6" />
 
 
 ## 7. Interesting Queries
@@ -272,8 +270,7 @@ SELECT * FROM country_summary WHERE location = 'Jordan'
 
 ```
  <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
-```
- I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
+``` I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
 ```
 Other sanity checks:
 ```sql
