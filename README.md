@@ -122,14 +122,15 @@ FROM information_schema.columns
 WHERE table_name IN ('countries','daily_stats','daily_vaccinations')
 ORDER BY table_name, ordinal_position;
 ```
-📸 *Screenshot: `screenshots/structure.png`*
+<img width="742" height="791" alt="image" src="https://github.com/user-attachments/assets/cd19512c-0a96-4ba7-b195-bf35ed8aa172" />
+
 
 ### Requirements check
 | Requirement | Met by |
 |---|---|
 | At least 3 tables | countries, daily_stats, daily_vaccinations |
-| One table ≥ 1000 rows | daily_stats (<N> rows) |
-| Two tables ≥ 100 rows | countries (<N>), daily_vaccinations (<N>) |
+| One table ≥ 1000 rows | daily_stats (393,903 rows) |
+| Two tables ≥ 100 rows | countries (237), daily_vaccinations (66,535) |
 | Date type | `date` |
 | Numeric type | `new_cases`, `total_deaths`, `population`... |
 | String type | `location`, `continent`, `iso_code` |
@@ -139,7 +140,7 @@ SELECT 'countries' t, COUNT(*) FROM countries
 UNION ALL SELECT 'daily_stats', COUNT(*) FROM daily_stats
 UNION ALL SELECT 'daily_vaccinations', COUNT(*) FROM daily_vaccinations;
 ```
-📸 *Screenshot: <img width="747" height="549" alt="image" src="https://github.com/user-attachments/assets/9234f78a-ed6e-4375-8e81-138aebfc91b0" />
+ <img width="747" height="549" alt="image" src="https://github.com/user-attachments/assets/9234f78a-ed6e-4375-8e81-138aebfc91b0" />
 
 
 
@@ -163,7 +164,7 @@ GROUP BY c.location, c.continent
 ORDER BY total_deaths DESC NULLS LAST
 LIMIT 10;
 ```
-📸 `screenshot <img width="741" height="647" alt="image" src="https://github.com/user-attachments/assets/64355c9b-dd78-47d5-95ae-181f953898f1" />
+ <img width="741" height="647" alt="image" src="https://github.com/user-attachments/assets/64355c9b-dd78-47d5-95ae-181f953898f1" />
 
 
 ### 7.2 GROUP BY + aggregate – Cases, deaths and death rate by continent
@@ -178,7 +179,7 @@ WHERE c.continent IS NOT NULL
 GROUP BY c.continent
 ORDER BY total_cases DESC;
 ```
-📸 `screenshot <img width="740" height="561" alt="image" src="https://github.com/user-attachments/assets/97fcb18c-cef4-4ce3-9205-4838840dab9e" />
+ <img width="740" height="561" alt="image" src="https://github.com/user-attachments/assets/97fcb18c-cef4-4ce3-9205-4838840dab9e" />
 
 
 ### 7.3 Three-table JOIN – Vaccination vs. death rate per country
@@ -195,7 +196,7 @@ GROUP BY c.location, c.population
 ORDER BY pct_vaccinated DESC
 LIMIT 15;
 ```
-📸 `screenshot <img width="740" height="756" alt="image" src="https://github.com/user-attachments/assets/0848a938-a747-49d4-803c-a348e01f259b" />
+ <img width="740" height="756" alt="image" src="https://github.com/user-attachments/assets/0848a938-a747-49d4-803c-a348e01f259b" />
 
 
 ### 7.4 Monthly trend of new cases worldwide
@@ -205,7 +206,7 @@ FROM daily_stats
 GROUP BY 1
 ORDER BY 1;
 ```
-📸 `screenshot <img width="756" height="817" alt="image" src="https://github.com/user-attachments/assets/90174343-797e-4b64-985a-10561f445de9" />
+ <img width="756" height="817" alt="image" src="https://github.com/user-attachments/assets/90174343-797e-4b64-985a-10561f445de9" />
 
 
 ### 7.5 Cases per million by median age group
@@ -222,7 +223,7 @@ WHERE c.median_age IS NOT NULL
 GROUP BY age_group
 ORDER BY avg_cases_per_million DESC;
 ```
-📸 `screenshot <img width="744" height="674" alt="image" src="https://github.com/user-attachments/assets/fcf93d3e-5803-476e-a9f8-a7429b27ae2b" />
+ <img width="744" height="674" alt="image" src="https://github.com/user-attachments/assets/fcf93d3e-5803-476e-a9f8-a7429b27ae2b" />
 
 
 ## 8. Verifying the Data
@@ -240,7 +241,7 @@ GROUP BY c.location, c.continent, c.population;
 SELECT * FROM country_summary WHERE location = 'Jordan'
 
 ```
-📸 `screenshot <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
+ <img width="612" height="637" alt="image" src="https://github.com/user-attachments/assets/1928da37-c78e-48a1-8c5a-537d34b9319c" />
 ```
  I compared the result with the last row for Jordan in the original CSV and the numbers matched, which verifies the data.
 ```
