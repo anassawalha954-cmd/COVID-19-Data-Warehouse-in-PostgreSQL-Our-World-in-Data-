@@ -15,7 +15,6 @@ Course: Databases for Analytics – Module 7
 | Dataset | Our World in Data – COVID-19 |
 | File | `owid-covid-data.csv` |
 | Source | https://github.com/owid/covid-19-data (folder `public/data`) |
-| My fork | <link to your fork> |
 | Access | Public, open source, no login needed |
 
 I found the data by searching GitHub for large open datasets. I chose it because it is trusted, well documented (it has a codebook), and complex enough: ~60+ columns, many countries, daily time series, lots of NULLs.
