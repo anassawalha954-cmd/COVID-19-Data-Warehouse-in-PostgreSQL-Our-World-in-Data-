@@ -63,13 +63,20 @@ The raw table `covid_raw` has 67 columns, all imported as text (`character varyi
 ## 4. Obstacles and How I Solved Them
 | # | Obstacle | Solution |
 |---|---|---|
-| 1 | File is huge – hard to open in Excel/editors | Inspected it through PostgreSQL itself instead of an editor |
-| 2 | ~60 columns – writing the CREATE TABLE by hand is error-prone | Built a raw staging table `covid_raw` first, using the codebook for types |
-| 3 | Header row can break numeric columns (the lecture's TSV example had to delete it manually) | File is CSV, so I used `HEADER true` in `COPY` |
-| 4 | Empty cells in numeric columns | `NULL ''` option and `NUMERIC` types instead of `INT` |
-| 5 | `COPY` permission denied for file paths | Used pgAdmin Import/Export or `\copy` |
-| 6 | Aggregates (World, Europe, income groups) mixed with real countries | Excluded `iso_code LIKE 'OWID%'` |
-| 7 | Country info repeated on every daily row | Normalized into 3 tables with PK/FK |
+| 1 | The file is large (429,435 rows × 67 columns), too big to inspect comfortably in Excel or a text editor | Loaded it into PostgreSQL first and explored it with SQL queries |
+| 2 | Every column in the raw table `covid_raw` was imported as and How I Solved The so dates and numbers could not be used in calculations | Converted types while creating the final tables, using rows × 67 columns), too big tand4. Obstacles so empty strings became NULL |
+| 3 | Aggregate rows (World, continents, income groups;The file is starting withes and How I Solved Them
+| # | Obstacle | Solution |
+|---|---|---|
+| 1 | The file is large (429,435 rows × 67 columns),|
+| 4 | Creating the primary key onem
+| # | Obstacfailed withcles and How I Solved Them
+| # | Obbecause the raw data had duplicate country-date rows | Rebuilt the table using|
+| 1 | The file is large (429,435 rowsso each country has one row per day |
+| 5 | After the error,ion |
+|---|---|did not exist at all: pgAdmin rolled back the whole script when one statement failed | Ran each statement separately (CREATE TABLE, then PRIMARY KEY, then FOREIGN KEY) and checked the result after each one |
+| 6 | Country attributes (population, median age, GDP) were repeated on every daily row | Normalized the data into 3 tables (`countries`,o dates and num `daily_vaccinations`) linked by primary and foreign keys |
+| 7 | Vaccination columns are mostly NULL for many dates | Moved them to their own table and kept only rows whereor a text editor | Loais not NULL (66,535 rows) |
 
 ## 5. Table Structure
 
