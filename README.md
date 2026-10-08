@@ -29,22 +29,36 @@ I found the data by searching GitHub for large open datasets. I chose it because
 
 - After removing the aggregate rows (`OWID_*`), the final tables contain 237 countries and 393,903 daily records.
 ## 3. Data Dictionary
+
+The raw table `covid_raw` has 67 columns, all imported as text (`character varying`). I kept the columns needed for the analysis and converted them to proper types in 3 final tables.
+
+### countries (one row per country)
 | Column | Type | Description |
 |---|---|---|
-| iso_code | VARCHAR(10) | ISO 3166-1 alpha-3 country code (`OWID_...` = aggregate region) |
-| continent | VARCHAR(50) | Continent of the country |
-| location | VARCHAR(100) | Country or region name |
+| iso_code | VARCHAR | ISO 3166-1 alpha-3 country code (primary key) |
+| location | VARCHAR | Country name |
+| continent | VARCHAR | Continent of the country |
+| population | BIGINT | Population of the country |
+| median_age | NUMERIC | Median age of the population |
+| gdp_per_capita | NUMERIC | Gross domestic product per person |
+
+### daily_stats (one row per country per day)
+| Column | Type | Description |
+|---|---|---|
+| iso_code | VARCHAR | Country code (foreign key to countries) |
 | date | DATE | Date of observation |
 | total_cases | NUMERIC | Cumulative confirmed cases |
 | new_cases | NUMERIC | New confirmed cases that day |
 | total_deaths | NUMERIC | Cumulative deaths |
 | new_deaths | NUMERIC | New deaths that day |
+
+### daily_vaccinations (one row per country per day with vaccination data)
+| Column | Type | Description |
+|---|---|---|
+| iso_code | VARCHAR | Country code (foreign key to countries) |
+| date | DATE | Date of observation |
 | total_vaccinations | NUMERIC | Total vaccine doses administered |
 | people_vaccinated | NUMERIC | People with at least one dose |
-| population | BIGINT | Population of the country |
-| median_age | NUMERIC | Median age of the population |
-| gdp_per_capita | NUMERIC | GDP per capita |
-| *(remaining columns)* | | Add from `owid-covid-codebook.csv` |
 
 ## 4. Obstacles and How I Solved Them
 | # | Obstacle | Solution |
