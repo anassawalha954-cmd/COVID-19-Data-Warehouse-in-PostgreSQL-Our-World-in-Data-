@@ -85,53 +85,55 @@ The raw table `covid_raw` has 67 columns, all imported as text (`character varyi
 
 ## 5. Table Structure
 
-### Staging
-```sql
-CREATE TABLE covid_raw (
-    iso_code VARCHAR(10),
-    continent VARCHAR(50),
-    location VARCHAR(100),
-    date DATE,
-    total_cases NUMERIC,
-    new_cases NUMERIC,
-    total_deaths NUMERIC,
-    new_deaths NUMERIC,
-    total_vaccinations NUMERIC,
-    people_vaccinated NUMERIC,
-    population BIGINT,
-    median_age NUMERIC,
-    gdp_per_capita NUMERIC
-    -- add the remaining columns here
-);
+### Staging table
+All 67 columns were imported as text (`character varying`) into `covid_raw`, then cleaned while building the final tables.
 
-COPY covid_raw
-FROM 'C:/temp/owid-covid-data.csv'
-WITH (FORMAT csv, HEADER true, NULL '');
-```
-> If your CSV has more columns, `COPY covid_raw (col1, col2, ...)` must list them in file order, or the table must have all columns.
+### Final tables
 
-### Final normalized tables
 ```sql
 CREATE TABLE countries AS
 SELECT DISTINCT ON (iso_code)
-       iso_code, location, continent, population, median_age, gdp_per_capita
+       iso_code, location, continent,
+       NULLIF(population::text,'')::numeric::bigint AS population,
+       NULLIF(median_age::text,'')::numeric         AS median_age,
+       NULLIF(gdp_per_capita::text,'')::numeric     AS gdp_per_capita
 FROM covid_raw
 WHERE iso_code NOT LIKE 'OWID%'
-ORDER BY iso_code, date DESC;
+ORDER BY iso_code, NULLIF(date::text,'')::date DESC;
 ALTER TABLE countries ADD PRIMARY KEY (iso_code);
 
 CREATE TABLE daily_stats AS
-SELECT iso_code, date, total_cases, new_cases, total_deaths, new_deaths
-FROM covid_raw
-WHERE iso_code NOT LIKE 'OWID%';
+SELECT DISTINCT ON (iso_code, d)
+       iso_code, d AS date,
+       total_cases, new_cases, total_deaths, new_deaths
+FROM (
+  SELECT iso_code,
+         NULLIF(date::text,'')::date            AS d,
+         NULLIF(total_cases::text,'')::numeric  AS total_cases,
+         NULLIF(new_cases::text,'')::numeric    AS new_cases,
+         NULLIF(total_deaths::text,'')::numeric AS total_deaths,
+         NULLIF(new_deaths::text,'')::numeric   AS new_deaths
+  FROM covid_raw
+  WHERE iso_code NOT LIKE 'OWID%'
+) t
+ORDER BY iso_code, d;
 ALTER TABLE daily_stats ADD PRIMARY KEY (iso_code, date);
 ALTER TABLE daily_stats ADD FOREIGN KEY (iso_code) REFERENCES countries(iso_code);
 
 CREATE TABLE daily_vaccinations AS
-SELECT iso_code, date, total_vaccinations, people_vaccinated
-FROM covid_raw
-WHERE iso_code NOT LIKE 'OWID%'
-  AND total_vaccinations IS NOT NULL;
+SELECT DISTINCT ON (iso_code, d)
+       iso_code, d AS date,
+       total_vaccinations, people_vaccinated
+FROM (
+  SELECT iso_code,
+         NULLIF(date::text,'')::date                  AS d,
+         NULLIF(total_vaccinations::text,'')::numeric AS total_vaccinations,
+         NULLIF(people_vaccinated::text,'')::numeric  AS people_vaccinated
+  FROM covid_raw
+  WHERE iso_code NOT LIKE 'OWID%'
+    AND NULLIF(total_vaccinations::text,'') IS NOT NULL
+) t
+ORDER BY iso_code, d;
 ALTER TABLE daily_vaccinations ADD PRIMARY KEY (iso_code, date);
 ALTER TABLE daily_vaccinations ADD FOREIGN KEY (iso_code) REFERENCES countries(iso_code);
 ```
